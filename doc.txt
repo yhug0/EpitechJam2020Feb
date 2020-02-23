@@ -1,0 +1,7 @@
+vous pouvez joué au jeux sur windows en buildant a partir d'un unity 2020.1
+
+les regle du jeu sont simple vous ete une fusée et vous devez éviter les planette qui endomage votre vaisseau en les touchant le bute et de récupéré le plus de cube magic de l'espace
+
+les commandes sont zqsd (azerty) pour le déplacement
+
+espace pour freiné le vaisseau
