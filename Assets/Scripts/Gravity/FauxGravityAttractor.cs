@@ -5,6 +5,7 @@ using UnityEngine;
 public class FauxGravityAttractor : MonoBehaviour
 {
     public float gravity = -10;
+    public float attractionfieldradius = 100;
 
     public void Attract(Transform body) {
         Vector3 gravityUp = (body.position - gameObject.GetComponent<Transform>().position).normalized;

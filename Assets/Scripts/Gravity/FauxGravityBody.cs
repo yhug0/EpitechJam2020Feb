@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class FauxGravityBody : MonoBehaviour
 {
-    public FauxGravityAttractor attractor;
+    public int radius;
+    private FauxGravityAttractor attractor;
     private Transform myTransform;
+    private CharacterController charCtrl;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,12 +15,44 @@ public class FauxGravityBody : MonoBehaviour
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         rigidbody.useGravity = false;
         myTransform = gameObject.GetComponent<Transform>();
+        charCtrl = gameObject.GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
+    GameObject getClosestPlanet()
+    {
+        GameObject closest_planet = null;
+        Vector3 origin = transform.position + charCtrl.center;
+        float min_dist = float.MaxValue;
+        float hit_dist = 0;
+
+        var hits = Physics.SphereCastAll(origin, radius, transform.forward);
+        if (hits.Length > 0)
+        {
+            foreach(var hit in hits) {
+                hit_dist = Vector3.Distance(transform.position, hit.transform.position);
+                if (min_dist > hit_dist) {
+                    min_dist = hit_dist;
+                    closest_planet = hit.transform.gameObject;
+                }
+            }
+            return closest_planet;
+        }
+        return(null);
+    }
+
     void Update()
     {
-        if (attractor != null)
-            attractor.Attract(myTransform);
+        var closest_planet = getClosestPlanet();
+        FauxGravityAttractor closest_planet_attractor;
+        
+        if (closest_planet != null)
+            closest_planet_attractor = closest_planet.GetComponent<FauxGravityAttractor>();
+        else {
+            attractor = null;
+            return;
+        }
+        if (attractor != closest_planet_attractor)
+            attractor = closest_planet_attractor;
+        attractor.Attract(myTransform);  
     }
 }
