@@ -52,7 +52,7 @@ public class firstPersonController : MonoBehaviour
     {
         HorizontalAxe = Input.GetAxis(HorizontalInput);
         VerticalAxe = Input.GetAxis(VerticalInput);
-
+        
         var velocity = RigidbodyCorps.velocity;
 		var velocityChange = ((PLayerMovement() * speed * Time.deltaTime) - velocity);
         velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
